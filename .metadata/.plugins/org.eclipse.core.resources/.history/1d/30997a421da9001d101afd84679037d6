@@ -1,0 +1,9 @@
+package com.webchat.repositories;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import com.webchat.controllers.models.Message;
+
+//JpaRepository<"Thực thể" , "Kiểu dữ liệu khóa chính của thực thể">
+public interface MessageRepository extends JpaRepository<Message , Long> {
+	
+}

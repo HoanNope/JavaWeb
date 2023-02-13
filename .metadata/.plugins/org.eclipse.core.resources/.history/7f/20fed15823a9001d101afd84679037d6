@@ -1,0 +1,33 @@
+package com.webchat.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.webchat.controllers.models.Message;
+import com.webchat.repositories.MessageReponsitory;
+
+@RestController
+@RequestMapping(path = "/api/message") // Request mapping: Ánh xạ các request
+public class MessageController {
+	// DI = Dependency Injection
+	@Autowired
+	private MessageReponsitory reponsitory;
+	
+	@GetMapping("")
+	// This is request: http://localhost:8080/api/message
+	List<Message> getAllMessage() {
+		// Where is data?
+		return reponsitory.findAll();
+	}
+	
+	@GetMapping("/{id}")
+	// Optional : Có thể trả về null
+	Message findById(@PathVariable Long id) {
+		return reponsitory.findById(id).orElseThrow(() -> new RuntimeException("Cannot find message with id = " + id));
+	}
+}

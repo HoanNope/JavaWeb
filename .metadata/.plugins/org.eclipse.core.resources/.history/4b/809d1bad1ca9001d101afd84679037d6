@@ -1,0 +1,19 @@
+package com.webchat.controllers;
+
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.webchat.controllers.models.Message;
+
+@RestController
+@RequestMapping(path = "/api/message") // Request mapping: Ánh xạ các request
+public class MessageController {
+	@GetMapping("")
+	// This is request: http://localhost:8080/api/message
+	List<Message> getAllMessage() {
+		return List.of(new Message(1L, "Hello", "red", (short) 12), new Message(2L, "Hi", "Yellow", (short) 12));
+	}
+}

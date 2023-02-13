@@ -1,0 +1,10 @@
+package com.webchat.database;
+
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+// Chứa các bin methods sẽ được gọi khi ứng dụng được chạy
+// Dùng để khởi tao database ...
+public class Database {
+	
+}

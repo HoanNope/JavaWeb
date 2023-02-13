@@ -1,0 +1,35 @@
+package com.webchat.database;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import com.webchat.controllers.models.Message;
+import com.webchat.repositories.MessageReponsitory;
+
+@Configuration
+// Chứa các bin methods sẽ được gọi khi ứng dụng được chạy
+// Dùng để khởi tao database ...
+public class Database {
+	
+	// logger
+	private static final Logger = LoggerFactory.getLogger(Database.class);
+	
+	// Code first
+	// 
+	@Bean
+	CommandLineRunner initDatabase(MessageReponsitory messageReponsitory) {
+		return new CommandLineRunner() {
+
+			@Override
+			public void run(String... args) throws Exception {
+				Message m1 = new Message(1L, "Hello", "red", (short)12);
+				Message m2 = new Message(2L, "Hi", "yellow", (short)16);
+				
+				messageReponsitory.save(m1);
+				messageReponsitory.save(m2);
+			}
+			
+		};
+	}
+}

@@ -1,0 +1,5 @@
+package com.webchat.database;
+
+public class Database {
+
+}

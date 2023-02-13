@@ -1,0 +1,5 @@
+package com.webchat.repositories;
+
+public class MessageRepository {
+
+}

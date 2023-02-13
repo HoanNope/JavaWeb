@@ -1,0 +1,65 @@
+package com.webchat.controllers.models;
+
+public class Message {
+	// Message's properties
+	private long mess_id;
+	private String mess_content;
+	private String mess_color;
+	private short mess_size;
+	
+	// Contractor methods
+	
+	public Message() {
+		
+	}
+	
+	public Message(long mess_id, String mess_content, String mess_color, short mess_size) {
+		super();
+		this.mess_id = mess_id;
+		this.mess_content = mess_content;
+		this.mess_color = mess_color;
+		this.mess_size = mess_size;
+	}
+	
+	// Getter and setter methods
+
+	public long getMess_id() {
+		return mess_id;
+	}
+
+	public String getMess_content() {
+		return mess_content;
+	}
+
+	public String getMess_color() {
+		return mess_color;
+	}
+
+	public short getMess_size() {
+		return mess_size;
+	}
+
+	public void setMess_id(long mess_id) {
+		this.mess_id = mess_id;
+	}
+
+	public void setMess_content(String mess_content) {
+		this.mess_content = mess_content;
+	}
+
+	public void setMess_color(String mess_color) {
+		this.mess_color = mess_color;
+	}
+
+	public void setMess_size(short mess_size) {
+		this.mess_size = mess_size;
+	}
+	
+	// Other methods
+	@Override
+	public String toString() {
+		return "Message [mess_id=" + mess_id + ", mess_content=" + mess_content + ", mess_color=" + mess_color
+				+ ", mess_size=" + mess_size + "]";
+	}
+	
+}

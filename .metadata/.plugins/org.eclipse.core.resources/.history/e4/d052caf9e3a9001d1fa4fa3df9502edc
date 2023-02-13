@@ -1,0 +1,9 @@
+package com.webchat.repositories;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.webchat.models.Message;
+
+public interface MessageReponsitory extends JpaRepository<Message, Long> {
+
+}

@@ -1,0 +1,86 @@
+package com.webchat.controllers;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.webchat.models.Message;
+import com.webchat.models.ResponseObject;
+import com.webchat.repositories.MessageRepository;
+
+@RestController
+@RequestMapping(path = "/api/message") // Request mapping: Ánh xạ các request
+public class MessageController {
+	// DI = Dependency Injection
+	@Autowired
+	private MessageRepository repository;
+
+	@GetMapping("/get-all")
+	// This is request: http://localhost:8080/api/message
+	List<Message> getAllMessage() {
+		// Where is data?
+		return repository.findAll();
+	}
+
+	@GetMapping("/get-{id}")
+	// Let's return an object with: data, message, status
+	// Optional: "May be null"
+	ResponseEntity<ResponseObject> findById(@PathVariable Long id) {
+		Optional<Message> foundMessage = repository.findById(id);
+
+		// Check foundMessage is not NULL
+		return foundMessage.isPresent()
+				? ResponseEntity.status(HttpStatus.OK)
+						.body(new ResponseObject("ok", "Query message successfully", foundMessage))
+				: ResponseEntity.status(HttpStatus.NOT_FOUND)
+						.body(new ResponseObject("false", "Cannot find message with id = " + id, ""));
+
+	}
+
+	// Insert new message with POST Method
+	// Postman: Raw, JSON
+	@PostMapping("/insert") //
+	ResponseEntity<ResponseObject> insertMessage(@RequestBody Message newMessage) {
+		// Dùng để quét những bản ghi trùng trong database
+//		List<Message> foundMessage = reponsitory.findByMessageContent(newMessage.getMess_content().trim());
+//		
+//		if(foundMessage.size() > 0) {
+//			return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(
+//					new ResponseObject("failed", "Message content already taken", "")
+//				);
+//		} else {
+//			return ResponseEntity.status(HttpStatus.OK).body(
+//					new ResponseObject("ok", "insert Message successfully", reponsitory.save(newMessage))
+//				);
+//		}
+
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(new ResponseObject("ok", "insert Message successfully", repository.save(newMessage)));
+	}
+
+	// Update, upsert = update if found, otherwise insert
+	@PutMapping("/update-{id}")
+	ResponseEntity<ResponseObject> updateMessage(@RequestBody Message newMessage, @PathVariable long id) {
+		Message updatedMessage = repository.findById(id).map(message -> {
+			message.setMess_content(newMessage.getMess_content()).setMess_color(newMessage.getMess_color())
+					.setMess_size(newMessage.getMess_size());
+			return repository.save(message);
+		}).orElseGet(() -> {
+			newMessage.setMess_id(id);
+			return repository.save(newMessage);
+		});
+		return ResponseEntity.status(HttpStatus.OK).body(
+				new ResponseObject("ok", "update Message successfully", updatedMessage)
+				);
+	}
+}
